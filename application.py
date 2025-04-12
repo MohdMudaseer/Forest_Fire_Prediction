@@ -10,7 +10,7 @@ standard_scaler = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\
 
 @app.route('/')
 def home():
-    return render_template('index.html')  # Change to render 'index.html'
+    return render_template('Home.html')  # Change to render 'index.html'
 
 @app.route('/predictFWI', methods=['GET', 'POST'])
 def predictFWI():
@@ -46,8 +46,9 @@ def predictFWI():
 
         # Make the prediction using the loaded model
         results = ridge_model.predict(scaled_data)
-
-    return render_template('index.html', result=results[0])  # Render 'index.html' with result
+        return render_template('index.html', result=results[0])  # Render 'index.html' with result
+    else:
+        return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
