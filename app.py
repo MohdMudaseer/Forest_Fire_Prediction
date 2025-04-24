@@ -4,8 +4,8 @@ import sklearn
 app = Flask(__name__)
 
 # Load classifier and scaler
-classifier_model = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\models\gradient.pkl', 'rb'))
-standard_scaler = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\models\scalar.pkl', 'rb'))
+classifier_model = pickle.load(open('models/gradient.pkl', 'rb'))
+standard_scaler = pickle.load(open('models\scalar.pkl', 'rb'))
 
 @app.route('/')
 def home():
