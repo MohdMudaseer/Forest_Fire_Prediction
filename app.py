@@ -1,8 +1,7 @@
 import pickle
 from flask import Flask, render_template, request
 import sklearn
-application = Flask(__name__)
-app = application
+app = Flask(__name__)
 
 # Load classifier and scaler
 classifier_model = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\models\gradient.pkl', 'rb'))
@@ -10,11 +9,7 @@ standard_scaler = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\
 
 @app.route('/')
 def home():
-<<<<<<< HEAD
     return render_template('Home.html')
-=======
-    return render_template('Home.html')  # Change to render 'index.html'
->>>>>>> f50ae84d265fa22483aa3e7744102a405fcb4874
 
 @app.route('/predictFire', methods=['GET', 'POST'])
 def predictFire():
@@ -46,19 +41,9 @@ def predictFire():
         ]]
         scaled_input = standard_scaler.transform(input_features)
 
-<<<<<<< HEAD
         # Predict
         prediction = classifier_model.predict(scaled_input)[0]
         result = "🔥 Fire Likely" if prediction == 1 else "✅ No Fire Risk"
 
     return render_template('index.html', result=result)
-=======
-        # Make the prediction using the loaded model
-        results = ridge_model.predict(scaled_data)
-        return render_template('index.html', result=results[0])  # Render 'index.html' with result
-    else:
-        return render_template('index.html')
->>>>>>> f50ae84d265fa22483aa3e7744102a405fcb4874
 
-if __name__ == '__main__':
-    app.run(debug=True)
