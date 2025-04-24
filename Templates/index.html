@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forest Fire Prediction</title>
+    <title>Forest Fire Classification</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        <h2>🔥 Forest Fire Prediction</h2>
-        <form method="POST" action="/predictFWI">
+        <h2>🔥 Forest Fire Classification</h2>
+        <form method="POST" action="/predictFire">
             <label>Temperature (°C):</label>
-            <input type="number" name="Temp" required><br><br>
+            <input type="number" name="Temperature" required><br><br>
 
             <label>Relative Humidity (%):</label>
             <input type="number" name="RH" required><br><br>
@@ -31,17 +31,11 @@
             <label>ISI:</label>
             <input type="number" name="ISI" required><br><br>
 
-            <label>Class (Fire = 1, Not Fire = 0):</label>
-            <select name="Classes" required>
-                <option value="1">Fire</option>
-                <option value="0">Not Fire</option>
-            </select><br><br>
-
             <label for="Region">Region:</label>
             <select id="Region" name="Region" required>
                 <option value="0">Region 0</option>
                 <option value="1">Region 1</option>
-            </select>
+            </select><br><br>
 
             <button type="submit">Predict</button>
         </form>
@@ -49,7 +43,7 @@
         {% if result is not none %}
             <div class="result">
                 <h3>Prediction Result:</h3>
-                <p><strong>Predicted FWI Risk:</strong> {{ result }}</p>
+                <p><strong>Prediction:</strong> {{ result }}</p>
             </div>
         {% endif %}
     </div>

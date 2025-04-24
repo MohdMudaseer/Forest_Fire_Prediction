@@ -1,53 +1,52 @@
 import pickle
 from flask import Flask, render_template, request
-
+import sklearn
 application = Flask(__name__)
 app = application
 
-# Load the pickled models
-ridge_model = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\models\ridge.pkl', 'rb'))
+# Load classifier and scaler
+classifier_model = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\models\gradient.pkl', 'rb'))
 standard_scaler = pickle.load(open(r'C:\Users\mudas\OneDrive\Desktop\ForestFire\models\scalar.pkl', 'rb'))
 
 @app.route('/')
 def home():
-    return render_template('index.html')  # Change to render 'index.html'
+    return render_template('Home.html')
 
-@app.route('/predictFWI', methods=['GET', 'POST'])
-def predictFWI():
-    result = None  # Default value to ensure result is None initially
+@app.route('/predictFire', methods=['GET', 'POST'])
+def predictFire():
+    result = None
 
     if request.method == 'POST':
-        # Get form data
+        # Get input data
         data = {
-            'Temp': float(request.form['Temp']),
+            'Temperature': float(request.form['Temperature']),
             'RH': float(request.form['RH']),
             'Ws': float(request.form['Ws']),
             'Rain': float(request.form['Rain']),
             'FFMC': float(request.form['FFMC']),
             'DMC': float(request.form['DMC']),
             'ISI': float(request.form['ISI']),
-            'Classes': int(request.form['Classes']),
             'Region': int(request.form['Region'])
         }
 
-        # Scale the data using the loaded scaler
-        scaled_data = standard_scaler.transform([[
-            data['Temp'],
+        # Transform input for prediction
+        input_features = [[
+            data['Temperature'],
             data['RH'],
             data['Ws'],
             data['Rain'],
             data['FFMC'],
             data['DMC'],
             data['ISI'],
-            data['Classes'],
-            data['Region'] 
-        ]])
-        print(standard_scaler.n_features_in_)
+            data['Region']
+        ]]
+        scaled_input = standard_scaler.transform(input_features)
 
-        # Make the prediction using the loaded model
-        results = ridge_model.predict(scaled_data)
+        # Predict
+        prediction = classifier_model.predict(scaled_input)[0]
+        result = "🔥 Fire Likely" if prediction == 1 else "✅ No Fire Risk"
 
-    return render_template('index.html', result=results[0])  # Render 'index.html' with result
+    return render_template('index.html', result=result)
 
 if __name__ == '__main__':
     app.run(debug=True)
