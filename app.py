@@ -1,7 +1,8 @@
 import pickle
 from flask import Flask, render_template, request
 import sklearn
-app = Flask(__name__)
+application = Flask(__name__)
+app=application
 
 # Load classifier and scaler
 classifier_model = pickle.load(open('models/gradient.pkl', 'rb'))
@@ -47,3 +48,5 @@ def predictFire():
 
     return render_template('index.html', result=result)
 
+if __name__=='__main__':
+    app.run(debug=True)
