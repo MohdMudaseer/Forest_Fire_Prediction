@@ -6,7 +6,7 @@ app=application
 
 # Load classifier and scaler
 classifier_model = pickle.load(open('models/gradient.pkl', 'rb'))
-standard_scaler = pickle.load(open('models\scalar.pkl', 'rb'))
+standard_scaler = pickle.load(open('models/scalar.pkl', 'rb'))
 
 @app.route('/')
 def home():
